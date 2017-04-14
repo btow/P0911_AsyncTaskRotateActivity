@@ -54,10 +54,20 @@ public class MainActivity extends AppCompatActivity {
 
         tvInfo = (TextView) findViewById(R.id.tvInfo);
 
-        myTask = new MyTask();
+        if (myTask == null) {
+            myTask = new MyTask();
+            myTask.execute();
+        } else {
+            myTask = (MyTask) getLastCustomNonConfigurationInstance();
+        }
+
         message = "create MyTask " + myTask.hashCode();
         Log.d(LOG_TAG, message);
-        myTask.execute();
 
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return myTask;
     }
 }
