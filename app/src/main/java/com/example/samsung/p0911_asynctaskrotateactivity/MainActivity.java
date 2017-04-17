@@ -45,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvInfo;
 
     @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return myTask;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -54,20 +59,14 @@ public class MainActivity extends AppCompatActivity {
 
         tvInfo = (TextView) findViewById(R.id.tvInfo);
 
+        myTask = (MyTask) getLastCustomNonConfigurationInstance();
         if (myTask == null) {
             myTask = new MyTask();
             myTask.execute();
-        } else {
-            myTask = (MyTask) getLastCustomNonConfigurationInstance();
         }
 
         message = "create MyTask " + myTask.hashCode();
         Log.d(LOG_TAG, message);
 
-    }
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        return myTask;
     }
 }
